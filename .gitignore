@@ -1,0 +1,26 @@
+# Environment variables (DO NOT expose secrets!)
+.env
+
+# Compiled binaries
+/bin/
+/build/
+*.exe
+*.out
+*.o
+
+# Dependency directories (if using vendoring)
+vendor/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and temporary files
+*.log
+*.tmp
+.DS_Store
+
+# Go-specific ignores
+go.sum
