@@ -44,7 +44,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	// get jwt token
-	token, token_err := utils.GenerateJWTToken(user.Email)
+	token, token_err := utils.GenerateJWTToken(user.Email, user.ID)
 	if token_err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error while generating token "})
 	}
@@ -55,6 +55,7 @@ func SignUp(c *gin.Context) {
 func Login(c *gin.Context) {
 	type LoginUser struct {
 		Email    string `bson:"email" binding:"required,email"`
+		ID       string `bson:"_id"`
 		Password string `bson:"password" binding:"required"`
 	}
 
@@ -83,7 +84,7 @@ func Login(c *gin.Context) {
 	}
 
 	// generate token
-	token, token_err := utils.GenerateJWTToken(user.Email)
+	token, token_err := utils.GenerateJWTToken(user.Email, user.ID)
 	if token_err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error while generating token "})
 		return

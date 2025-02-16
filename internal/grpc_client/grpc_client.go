@@ -17,6 +17,7 @@ func ExecuteCode(c *gin.Context) {
 		Language string `json:"language" binding:"required"`
 		Input    string `json:"input"`
 	}
+	log.Println("Executing Code .... ")
 
 	var req ReqBody
 
@@ -30,6 +31,7 @@ func ExecuteCode(c *gin.Context) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to connect grpc " + err.Error()})
+		c.Abort()
 		return
 	}
 
@@ -46,6 +48,10 @@ func ExecuteCode(c *gin.Context) {
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error while executing Code " + err.Error()})
+		return
+	}
+	if resp.Error != "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": resp.Error})
 		return
 	}
 

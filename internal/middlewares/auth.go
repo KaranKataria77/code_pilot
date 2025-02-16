@@ -14,6 +14,7 @@ func IsAuthorized(c *gin.Context) {
 	_, err := utils.ValidateToken(tokenString)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized user"})
+		c.Abort()
 		return
 	}
 	log.Println("User validated")
