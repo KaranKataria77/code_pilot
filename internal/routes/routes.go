@@ -3,6 +3,8 @@ package routes
 import (
 	"code_pilot/internal/controllers"
 	grpcclient "code_pilot/internal/grpc_client"
+
+	// grpcclient "code_pilot/internal/grpc_client"
 	"code_pilot/internal/middlewares"
 	"code_pilot/internal/supabase"
 	"code_pilot/internal/websocket"
@@ -17,7 +19,7 @@ func SetUpRoutes(r *gin.Engine) {
 	api.GET("/user", middlewares.IsAuthorized, controllers.GetUser)
 	api.POST("/user/register", controllers.SignUp)
 	api.POST("/user/login", controllers.Login)
-	api.POST("/user/execute-code", middlewares.IsAuthorized, grpcclient.ExecuteCode)
+	api.POST("/user/execute-code", grpcclient.CodeExecution)
 	api.GET("/ws", websocket.HandleWebsocket)
 	api.GET("/fileupload", supabase.GetFolderStructure)
 	// project route

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	pb "code-sandbox/proto"
+	pb "code-execution-sandbox/proto"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"

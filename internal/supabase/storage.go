@@ -54,6 +54,27 @@ func FileLists(fileName string, s *storage_go.Client) ([]storage_go.FileObject, 
 	return resp, nil
 }
 
+func GetFiles(c *gin.Context) {
+	config.LoadEnv()
+
+	reference_id := config.GetEnv("SUPABASE_PROJECT_ID", "")
+	api_key := config.GetEnv("SUPABASE_PROJECT_SERVICE_API_KEY", "")
+	s := storage_go.NewClient("https://"+reference_id+".supabase.co/storage/v1", api_key, nil)
+	fileName := "base_nextjs_page_router_js/src"
+	resp, err := s.ListFiles("code_pilot", fileName, storage_go.FileSearchOptions{
+		Limit:  1000,
+		Offset: 0,
+		SortByOptions: storage_go.SortBy{
+			Column: "",
+			Order:  "",
+		},
+	})
+	if err != nil {
+		log.Println("Error while listing files/folder " + err.Error())
+	}
+	c.JSON(http.StatusOK, gin.H{"response": resp})
+}
+
 func GetFolderStructure(c *gin.Context) {
 	config.LoadEnv()
 	reference_id := config.GetEnv("SUPABASE_PROJECT_ID", "")
